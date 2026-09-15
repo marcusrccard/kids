@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<title>Missão Família</title>
+<meta name="description" content="Tarefas do dia a dia viram missões! Cumpra, ganhe pontos e troque por prêmios.">
+<meta name="theme-color" content="#14122B">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="icon" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- ============ 0. ESCOLHA DE MODO DE USO ============ -->
+  <section class="screen active" id="screen-mode">
+    <div class="hero">
+      <span class="logo">🚀</span>
+      <h1>Missão Família</h1>
+      <p>Tarefas do dia viram missões. Cumpra, ganhe pontos e troque por prêmios!</p>
+    </div>
+    <div style="margin-top:20px">
+      <div class="choice-card" data-mode="dual">
+        <div class="cc-emoji">📱📱</div>
+        <div>
+          <div class="cc-title">Dois aparelhos</div>
+          <div class="cc-desc">Responsável usa o seu, e cada criança usa o dela</div>
+        </div>
+      </div>
+      <div class="choice-card" data-mode="single">
+        <div class="cc-emoji">📱</div>
+        <div>
+          <div class="cc-title">Um aparelho só</div>
+          <div class="cc-desc">Responsável e crianças revezam no mesmo celular</div>
+        </div>
+      </div>
+    </div>
+    <p class="small-note">Você pode mudar isso depois nas configurações.</p>
+  </section>
+
+  <!-- ============ 0b. QUEM É VOCÊ (modo dois aparelhos) ============ -->
+  <section class="screen" id="screen-role">
+    <button class="icon-btn" data-back="screen-mode">←</button>
+    <div class="hero">
+      <span class="logo">🙋</span>
+      <h1>Quem vai usar<br>este aparelho?</h1>
+    </div>
+    <div style="margin-top:20px">
+      <div class="choice-card" data-role="parent">
+        <div class="cc-emoji">🧑‍🦱</div>
+        <div>
+          <div class="cc-title">Sou responsável</div>
+          <div class="cc-desc">Vou criar tarefas e prêmios</div>
+        </div>
+      </div>
+      <div class="choice-card" data-role="child">
+        <div class="cc-emoji">🧒</div>
+        <div>
+          <div class="cc-title">Sou a criança</div>
+          <div class="cc-desc">Vou cumprir as missões</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 1. LOGIN / CADASTRO DO RESPONSÁVEL ============ -->
+  <section class="screen" id="screen-parent-auth">
+    <button class="icon-btn" id="btn-back-from-auth">←</button>
+    <div class="hero">
+      <span class="logo">🧑‍🦱</span>
+      <h1 id="auth-title">Criar minha conta</h1>
+      <p>Área do responsável</p>
+    </div>
+    <form id="form-parent-auth" class="stack" style="margin-top:10px">
+      <div class="field" id="field-parent-name">
+        <label>Seu nome</label>
+        <input type="text" id="in-parent-name" placeholder="Como a criança te chama?" maxlength="30">
+      </div>
+      <div class="field">
+        <label>E-mail</label>
+        <input type="email" id="in-parent-email" placeholder="seu@email.com" autocomplete="email">
+      </div>
+      <div class="field">
+        <label>Senha</label>
+        <input type="password" id="in-parent-pass" placeholder="Mínimo 6 caracteres" autocomplete="current-password">
+      </div>
+      <p class="error-text" id="err-parent-auth"></p>
+      <button type="submit" class="btn btn-primary btn-block" id="btn-parent-auth-submit">Criar conta e começar 🚀</button>
+    </form>
+    <p class="center" style="margin-top:16px">
+      <button class="link" id="btn-toggle-auth">Já tenho conta, entrar</button>
+    </p>
+  </section>
+
+  <!-- ============ 1b. DEFINIR PIN DE APROVAÇÃO (1ª vez do responsável) ============ -->
+  <section class="screen" id="screen-set-pin">
+    <div class="hero">
+      <span class="logo">🔐</span>
+      <h1>Crie sua senha<br>de aprovação</h1>
+      <p>4 números que só você sabe. Vamos pedir sempre que você aprovar uma missão ou entrega — assim a criança não consegue aprovar sozinha.</p>
+    </div>
+    <div class="pin-display" id="setpin-dots"></div>
+    <div class="pin-pad" id="setpin-pad"></div>
+    <p class="pin-error" id="setpin-error"></p>
+  </section>
+
+  <!-- ============ 2. ENTRAR NA FAMÍLIA (criança, modo dois aparelhos) ============ -->
+  <section class="screen" id="screen-child-join">
+    <button class="icon-btn" data-back="screen-role">←</button>
+    <div class="hero">
+      <span class="logo">🔑</span>
+      <h1>Digite o código<br>da sua família</h1>
+      <p>Peça pro seu responsável o código de 6 letras</p>
+    </div>
+    <div class="field" style="margin-top:10px">
+      <input type="text" id="in-invite-code" placeholder="EX: 7XQ2KP" maxlength="6" style="text-align:center;font-size:26px;letter-spacing:6px;font-family:'Baloo 2';text-transform:uppercase">
+    </div>
+    <p class="error-text" id="err-join-code"></p>
+    <button class="btn btn-primary btn-block" id="btn-join-code">Continuar</button>
+  </section>
+
+  <!-- ============ 2b. ESCOLHER QUEM É A CRIANÇA ============ -->
+  <section class="screen" id="screen-child-pick">
+    <button class="icon-btn" data-back="screen-child-join">←</button>
+    <div class="hero">
+      <span class="logo">👋</span>
+      <h1>Qual é você?</h1>
+    </div>
+    <div class="stack" id="child-pick-list" style="margin-top:14px"></div>
+  </section>
+
+  <!-- ============ 2c. PIN DA CRIANÇA PRA ENTRAR ============ -->
+  <section class="screen" id="screen-child-login-pin">
+    <button class="icon-btn" data-back="screen-child-pick">←</button>
+    <div class="hero">
+      <span class="logo" id="child-login-avatar">🧒</span>
+      <h1 id="child-login-name">Oi!</h1>
+      <p>Digite sua senha de 4 números</p>
+    </div>
+    <div class="pin-display" id="childlogin-dots"></div>
+    <div class="pin-pad" id="childlogin-pad"></div>
+    <p class="pin-error" id="childlogin-error"></p>
+  </section>
+
+  <!-- ============ 3. PAINEL DO RESPONSÁVEL ============ -->
+  <section class="screen" id="screen-parent-dash">
+    <div class="hud">
+      <div class="hud-left">
+        <div class="hud-avatar" id="pd-avatar" style="background:#7C5CFC33">🧑‍🦱</div>
+        <div>
+          <div class="hud-name" id="pd-name">Responsável</div>
+          <div class="hud-sub" id="pd-family-name">Minha Família</div>
+        </div>
+      </div>
+      <button class="icon-btn" id="btn-open-settings">⚙️</button>
+    </div>
+
+    <div class="ptabs" id="parent-tabs">
+      <button class="ptab active" data-ptab="tasks">🗒️ Tarefas</button>
+      <button class="ptab" data-ptab="approvals">✅ Aprovações<span class="badge-count hidden" id="badge-approvals">0</span></button>
+      <button class="ptab" data-ptab="shop">🎁 Loja</button>
+      <button class="ptab" data-ptab="deliveries">📦 Entregas<span class="badge-count hidden" id="badge-deliveries">0</span></button>
+      <button class="ptab" data-ptab="family">👪 Família</button>
+    </div>
+
+    <div class="scrollable">
+      <!-- TAREFAS -->
+      <div class="ptab-panel" id="ptab-tasks">
+        <div class="child-chip-row" id="parent-child-chips"></div>
+        <div class="row-between" style="margin-bottom:10px">
+          <h2 class="section-title" style="margin:0">Missões do dia</h2>
+        </div>
+        <div id="parent-task-list" class="stack"></div>
+        <button class="btn btn-accent btn-block" id="btn-add-task" style="margin-top:6px">＋ Nova missão</button>
+      </div>
+
+      <!-- APROVAÇÕES -->
+      <div class="ptab-panel hidden" id="ptab-approvals">
+        <h2 class="section-title">Esperando aprovação</h2>
+        <div id="approvals-list" class="stack"></div>
+      </div>
+
+      <!-- LOJA (gerenciar prêmios) -->
+      <div class="ptab-panel hidden" id="ptab-shop">
+        <h2 class="section-title">Prêmios cadastrados</h2>
+        <div id="parent-reward-list" class="reward-grid"></div>
+        <button class="btn btn-accent btn-block" id="btn-add-reward" style="margin-top:14px">＋ Novo prêmio</button>
+      </div>
+
+      <!-- ENTREGAS -->
+      <div class="ptab-panel hidden" id="ptab-deliveries">
+        <h2 class="section-title">Prêmios para entregar</h2>
+        <div id="deliveries-list" class="stack"></div>
+      </div>
+
+      <!-- FAMÍLIA -->
+      <div class="ptab-panel hidden" id="ptab-family">
+        <h2 class="section-title">Código da família</h2>
+        <div class="card center">
+          <p style="color:var(--ink-dim);font-size:13px;margin-bottom:6px">Compartilhe com a criança para ela entrar no aparelho dela</p>
+          <div class="invite-code-display" id="family-invite-code">------</div>
+          <img id="family-qr" class="qr-box" style="width:180px;height:180px" alt="QR code de convite">
+        </div>
+        <h2 class="section-title" style="margin-top:20px">Crianças</h2>
+        <div id="family-children-list" class="stack"></div>
+        <button class="btn btn-accent btn-block" id="btn-add-child" style="margin-top:6px">＋ Adicionar criança</button>
+        <button class="btn btn-ghost btn-block" id="btn-parent-logout" style="margin-top:22px">Sair da conta</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 4. PAINEL DA CRIANÇA ============ -->
+  <section class="screen" id="screen-child-dash">
+    <div class="hud">
+      <div class="hud-left">
+        <div class="hud-avatar" id="cd-avatar">🦊</div>
+        <div>
+          <div class="hud-name" id="cd-name">Criança</div>
+          <div class="hud-sub" id="cd-level-label">Nível 1</div>
+        </div>
+      </div>
+      <div class="hud-stats">
+        <div class="pill pill-gold">⭐ <span id="cd-points">0</span></div>
+        <button class="icon-btn" id="btn-child-exit">🚪</button>
+      </div>
+    </div>
+
+    <div class="streak-card">
+      <div class="streak-head">
+        <span class="streak-title display" id="cd-streak-title">🔥 Sequência: 0 dias</span>
+        <span class="streak-mult" id="cd-streak-mult">x1.0</span>
+      </div>
+      <div class="streak-track" id="cd-streak-track"></div>
+      <div class="streak-labels"><span>Início</span><span>Dedicado(a)</span><span>Lendário(a)</span></div>
+    </div>
+
+    <div class="scrollable">
+      <div class="ctab-panel" id="ctab-missions">
+        <h2 class="section-title">🎯 Minhas missões de hoje</h2>
+        <div id="child-task-list" class="task-grid"></div>
+      </div>
+
+      <div class="ctab-panel hidden" id="ctab-shop">
+        <h2 class="section-title">🎁 Loja de prêmios</h2>
+        <div id="child-reward-list" class="reward-grid"></div>
+      </div>
+
+      <div class="ctab-panel hidden" id="ctab-me">
+        <h2 class="section-title">🏅 Meu progresso</h2>
+        <div class="card" style="margin-bottom:12px">
+          <div class="row-between"><span>Pontos totais</span><b id="me-points" style="color:var(--gold)">0</b></div>
+        </div>
+        <div class="card" style="margin-bottom:12px">
+          <div class="row-between"><span>Missões cumpridas</span><b id="me-approved">0</b></div>
+        </div>
+        <div class="card">
+          <div class="row-between"><span>Prêmios resgatados</span><b id="me-redeemed">0</b></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tabbar">
+      <button class="tab-btn active" data-ctab="missions"><span class="tico">🎯</span>Missões</button>
+      <button class="tab-btn" data-ctab="shop"><span class="tico">🎁</span>Loja</button>
+      <button class="tab-btn" data-ctab="me"><span class="tico">🦊</span>Eu</button>
+    </div>
+  </section>
+
+</div>
+
+<!-- ================= OVERLAYS / SHEETS ================= -->
+
+<div class="overlay" id="overlay-pin">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <h2 id="pinsheet-title">Senha do responsável</h2>
+    <div class="pin-display" id="pinsheet-dots"></div>
+    <div class="pin-pad" id="pinsheet-pad"></div>
+    <p class="pin-error" id="pinsheet-error"></p>
+  </div>
+</div>
+
+<div class="overlay" id="overlay-task">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <h2>Nova missão</h2>
+    <div class="field">
+      <label>Nome da missão</label>
+      <input type="text" id="in-task-title" placeholder="Ex: Arrumar a cama" maxlength="40">
+    </div>
+    <div class="field">
+      <label>Ícone</label>
+      <div class="emoji-picker" id="task-emoji-picker"></div>
+    </div>
+    <div class="field">
+      <label>Pontos</label>
+      <input type="number" id="in-task-points" value="10" min="1" max="500">
+    </div>
+    <div class="field">
+      <label>Para quem</label>
+      <div class="child-chip-row" id="task-assign-chips"></div>
+    </div>
+    <p class="error-text" id="err-task"></p>
+    <button class="btn btn-primary btn-block" id="btn-save-task">Criar missão ✅</button>
+  </div>
+</div>
+
+<div class="overlay" id="overlay-reward">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <h2>Novo prêmio</h2>
+    <div class="field">
+      <label>Nome do prêmio</label>
+      <input type="text" id="in-reward-title" placeholder="Ex: 1 hora de videogame" maxlength="40">
+    </div>
+    <div class="field">
+      <label>Ícone</label>
+      <div class="emoji-picker" id="reward-emoji-picker"></div>
+    </div>
+    <div class="field">
+      <label>Custo em pontos</label>
+      <input type="number" id="in-reward-cost" value="50" min="1" max="5000">
+    </div>
+    <p class="error-text" id="err-reward"></p>
+    <button class="btn btn-primary btn-block" id="btn-save-reward">Criar prêmio 🎁</button>
+  </div>
+</div>
+
+<div class="overlay" id="overlay-child">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <h2>Adicionar criança</h2>
+    <div class="field">
+      <label>Nome</label>
+      <input type="text" id="in-child-name" placeholder="Nome da criança" maxlength="24">
+    </div>
+    <div class="field">
+      <label>Avatar</label>
+      <div class="avatar-picker" id="child-avatar-picker"></div>
+    </div>
+    <div class="field">
+      <label>Senha de 4 números (a criança vai usar pra entrar)</label>
+      <input type="text" inputmode="numeric" id="in-child-pin" placeholder="0000" maxlength="4">
+    </div>
+    <p class="error-text" id="err-child"></p>
+    <button class="btn btn-primary btn-block" id="btn-save-child">Adicionar 🎉</button>
+  </div>
+</div>
+
+<div class="overlay" id="overlay-redeem">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <h2 id="redeem-title">Trocar por este prêmio?</h2>
+    <div class="center" style="margin:10px 0 20px">
+      <div style="font-size:56px" id="redeem-icon">🎁</div>
+      <p style="color:var(--ink-dim);margin-top:6px" id="redeem-cost-label">50 pontos</p>
+    </div>
+    <div class="stack">
+      <button class="btn btn-mint btn-block" id="btn-confirm-redeem">Sim, trocar! 🎉</button>
+      <button class="btn btn-ghost btn-block" id="btn-cancel-redeem">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="celebrate-layer" id="celebrate-layer"></div>
+<div class="level-up-banner" id="level-up-banner">
+  <span class="lu-emoji">⭐</span>
+  <h3 id="lu-title">Subiu de nível!</h3>
+  <p id="lu-sub">Continue assim!</p>
+</div>
+
+<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
